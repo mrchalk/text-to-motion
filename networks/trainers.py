@@ -189,7 +189,7 @@ class DecompTrainerV3(object):
                     self.forward(batch_data)
                     self.backward()
                     val_rec_loss += self.loss_rec.item()
-                    val_smooth_loss += self.loss.item()
+                    #val_smooth_loss += self.loss.item()
                     val_sparcity_loss += self.loss_sparsity.item()
                     val_smooth_loss += self.loss_smooth.item()
                     val_loss += self.loss.item()
@@ -616,7 +616,7 @@ class CompTrainerV6(object):
 
         epoch = 0
         it = 0
-        if self.opt.dataset_name == 't2m':
+        if self.opt.dataset_name == 't2m' or self.opt.dataset_name == 'ue':
             schedule_len = 10
         elif self.opt.dataset_name == 'kit':
             schedule_len = 6

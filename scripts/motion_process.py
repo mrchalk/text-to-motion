@@ -414,6 +414,27 @@ def recover_from_ric(data, joints_num):
     positions = torch.cat([r_pos.unsqueeze(-2), positions], dim=-2)
 
     return positions
+
+
+def recover_from_ric_ue(data, joints_num):
+    r_rot_quat, r_pos = recover_root_rot_pos(data)
+    positions = data[..., 13:(joints_num - 1) * 3 + 13]
+    positions = positions.view(positions.shape[:-1] + (-1, 3))
+    '''Swap Y-axis and Z-axis'''
+    positions = positions[..., [0, 2, 1]]
+
+    '''Add Y-axis rotation to local joints'''
+    positions = qrot(qinv(r_rot_quat[..., None, :]).expand(positions.shape[:-1] + (4,)), positions)
+
+    '''Add root XZ to joints'''
+    positions[..., 0] += r_pos[..., 0:1]
+    positions[..., 2] += r_pos[..., 2:3]
+
+    '''Concate root and joints'''
+    '''Scale from cm to meter'''
+    positions = torch.cat([r_pos.unsqueeze(-2), positions], dim=-2) * 0.01
+
+    return positions
 '''
 For Text2Motion Dataset
 '''

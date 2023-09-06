@@ -28,6 +28,22 @@ def plot_t2m(data, save_dir, captions, ep_curves=None):
             plt.savefig(save_path)
             plt.close()
 
+def plot_ue(data, save_dir, captions, ep_curves=None):
+    data = train_dataset.inv_transform(data)
+    # print(ep_curves.shape)
+    for i, (caption, joint_data) in enumerate(zip(captions, data)):
+        joint = recover_from_ric_ue(torch.from_numpy(joint_data).float(), opt.joints_num).numpy()
+        save_path = pjoin(save_dir, '%02d.mp4'%(i))
+        plot_3d_motion(save_path, kinematic_chain, joint, title=caption, fps=fps, radius=radius)
+        # print(ep_curve.shape)
+        if ep_curves is not None:
+            ep_curve = ep_curves[i]
+            plt.plot(ep_curve)
+            plt.title(caption)
+            save_path = pjoin(save_dir, '%02d.png' % (i))
+            plt.savefig(save_path)
+            plt.close()
+
 
 def loadDecompModel(opt):
     movement_enc = MovementConvEncoder(dim_pose - 4, opt.dim_movement_enc_hidden, opt.dim_movement_latent)
@@ -119,6 +135,16 @@ if __name__ == '__main__':
         dim_pose = 251
         opt.max_motion_length = 196
         kinematic_chain = paramUtil.kit_kinematic_chain
+    elif opt.dataset_name == 'ue':
+        opt.data_root = './dataset/HumanML3D_UE'
+        opt.motion_dir = pjoin(opt.data_root, 'new_joint_vecs')
+        opt.text_dir = pjoin(opt.data_root, 'texts')
+        opt.joints_num = 25
+        radius = 4
+        fps = 20
+        opt.max_motion_length = 196
+        dim_pose = 305
+        kinematic_chain = paramUtil.ue_kinematic_chain
 
     else:
         raise KeyError('Dataset Does Not Exist')
@@ -146,4 +172,7 @@ if __name__ == '__main__':
     train_dataset = Text2MotionDataset(opt, mean, std, train_split_file, w_vectorizer)
     val_dataset = Text2MotionDataset(opt, mean, std, val_split_file, w_vectorizer)
 
-    trainer.train(train_dataset, val_dataset, plot_t2m)
+    if opt.dataset_name == 'ue':
+        trainer.train(train_dataset, val_dataset, plot_ue)
+    else:
+        trainer.train(train_dataset, val_dataset, plot_t2m)

@@ -23,6 +23,15 @@ def plot_t2m(data, save_dir):
         plot_3d_motion(save_path, kinematic_chain, joint, title="None", fps=fps, radius=radius)
 
 
+def plot_ue(data, save_dir):
+    data = train_dataset.inv_transform(data)
+    for i in range(len(data)):
+        joint_data = data[i]
+        joint = recover_from_ric_ue(torch.from_numpy(joint_data).float(), opt.joints_num).numpy()
+        save_path = pjoin(save_dir, '%02d.mp4'%(i))
+        plot_3d_motion(save_path, kinematic_chain, joint, title="None", fps=fps, radius=radius)
+
+
 if __name__ == '__main__':
     parser = TrainDecompOptions()
     opt = parser.parse()
@@ -64,6 +73,16 @@ if __name__ == '__main__':
         dim_pose = 251
         opt.max_motion_length = 196
         kinematic_chain = paramUtil.kit_kinematic_chain
+    elif opt.dataset_name == 'ue':
+        opt.data_root = './dataset/HumanML3D_UE'
+        opt.motion_dir = pjoin(opt.data_root, 'new_joint_vecs')
+        opt.text_dir = pjoin(opt.data_root, 'texts')
+        opt.joints_num = 25
+        opt.max_motion_length = 196
+        dim_pose = 305
+        radius = 4
+        fps = 20
+        kinematic_chain = paramUtil.ue_kinematic_chain
     else:
         raise KeyError('Dataset Does Not Exist')
 
@@ -97,4 +116,7 @@ if __name__ == '__main__':
     val_loader = DataLoader(val_dataset, batch_size=opt.batch_size, drop_last=True, num_workers=4,
                             shuffle=True, pin_memory=True)
 
-    trainer.train(train_loader, val_loader, plot_t2m)
+    if opt.dataset_name == 'ue':
+        trainer.train(train_loader, val_loader, plot_ue)
+    else:
+        trainer.train(train_loader, val_loader, plot_t2m)

@@ -40,6 +40,12 @@ if __name__ == '__main__':
         opt.text_dir = pjoin(opt.data_root, 'texts')
         opt.joints_num = 21
         dim_pose = 251
+    elif opt.dataset_name == 'ue':
+        opt.data_root = './dataset/HumanML3D_UE'
+        opt.motion_dir = pjoin(opt.data_root, 'new_joint_vecs')
+        opt.text_dir = pjoin(opt.data_root, 'texts')
+        opt.joints_num = 25
+        dim_pose = 305
     else:
         raise KeyError('Dataset Does Not Exist')
 

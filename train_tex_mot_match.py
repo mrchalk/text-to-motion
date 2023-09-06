@@ -69,6 +69,15 @@ if __name__ == '__main__':
         opt.max_motion_length = 196
         num_classes = 200 // opt.unit_length
         meta_root = pjoin(opt.checkpoints_dir, opt.dataset_name, 'Comp_v6_KLD005', 'meta')
+    elif opt.dataset_name == 'ue':
+        opt.data_root = './dataset/HumanML3D_UE'
+        opt.motion_dir = pjoin(opt.data_root, 'new_joint_vecs')
+        opt.text_dir = pjoin(opt.data_root, 'texts')
+        opt.joints_num = 25
+        opt.max_motion_length = 196
+        dim_pose = 305
+        num_classes = 200 // opt.unit_length
+        meta_root = pjoin(opt.checkpoints_dir, opt.dataset_name, 'Comp_v6_KLD005', 'meta')
     else:
         raise KeyError('Dataset Does Not Exist')
 

@@ -56,6 +56,12 @@ t2m_kinematic_chain = [[0, 2, 5, 8, 11], [0, 1, 4, 7, 10], [0, 3, 6, 9, 12, 15],
 t2m_left_hand_chain = [[20, 22, 23, 24], [20, 34, 35, 36], [20, 25, 26, 27], [20, 31, 32, 33], [20, 28, 29, 30]]
 t2m_right_hand_chain = [[21, 43, 44, 45], [21, 46, 47, 48], [21, 40, 41, 42], [21, 37, 38, 39], [21, 49, 50, 51]]
 
+# [pelvis 0, spine_01 1, spine_02 2, spine_03 3, spine_04 4, spine_05 5, neck_01 6, neck_02 7, head 8, 
+# clavicle_l 9, upperarm_l 10, lowerarm_l 11, hand_l 12, clavicle_r 13, upperarm_r 14, lowerarm_r 15, hand_r 16, 
+# thigh_r 17, calf_r 18, foot_r 19, ball_r 20, thigh_l 21, calf_l 22, foot_l 23, ball_l 24]
+# right leg, left leg, spine+head, right arm, left arm
+ue_kinematic_chain = [[0, 17, 18, 19, 20], [0, 21, 22, 23, 24], [0, 1, 2, 3, 4, 5, 6, 7, 8], [5, 13, 14, 15, 16], [5, 9, 10, 11, 12]]
+
 
 kit_tgt_skel_id = '03950'
 
