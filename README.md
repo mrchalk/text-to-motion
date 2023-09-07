@@ -131,7 +131,7 @@ If you find problem with installing ffmpeg, you may not be able to animate 3d re
 
 ## Quantitative Evaluations
 ```sh
-python final_evaluation.py 
+python final_evaluations.py 
 ```
 This will evaluate the model performance on HumanML3D dataset by default. You could also run on KIT-ML dataset by uncommenting certain lines in *./final_evaluation.py*. The statistical results will saved to *./t2m_evaluation.log*.
 

@@ -271,15 +271,16 @@ def animation_4_user_study(save_dir):
 
 if __name__ == '__main__':
     # dataset_opt_path = './checkpoints/kit/Comp_v6_KLD005/opt.txt'
-    dataset_opt_path = './checkpoints/t2m/Comp_v6_KLD01/opt.txt'
+    # dataset_opt_path = './checkpoints/t2m/Comp_v6_KLD01/opt.txt'
+    dataset_opt_path = './checkpoints/ue/Comp_v6_KLD005/opt.txt'
     eval_motion_loaders = {
         ################
         ## HumanML3D Dataset##
         ################
-        'Comp_v6_KLD01': lambda: get_motion_loader(
-            './checkpoints/t2m/Comp_v6_KLD01/opt.txt',
-            batch_size, gt_dataset, mm_num_samples, mm_num_repeats, device
-        )
+        # 'Comp_v6_KLD01': lambda: get_motion_loader(
+        #     './checkpoints/t2m/Comp_v6_KLD01/opt.txt',
+        #     batch_size, gt_dataset, mm_num_samples, mm_num_repeats, device
+        # )
 
         ################
         ## KIT Dataset##
@@ -288,6 +289,14 @@ if __name__ == '__main__':
         #     './checkpoints/kit/Comp_v6_KLD005/opt.txt',
         #     batch_size, gt_dataset, mm_num_samples, mm_num_repeats, device
         # ),
+
+        ################
+        ## HumanML3D_UE Dataset##
+        ################
+        'Comp_v6_KLD005': lambda: get_motion_loader(
+            './checkpoints/ue/Comp_v6_KLD005/opt.txt',
+            batch_size, gt_dataset, mm_num_samples, mm_num_repeats, device
+        )
     }
 
     device_id = 3
@@ -314,6 +323,7 @@ if __name__ == '__main__':
     wrapper_opt = get_opt(dataset_opt_path, device)
     eval_wrapper = EvaluatorModelWrapper(wrapper_opt)
 
-    log_file = './t2m_evaluation.log'
+    #log_file = './t2m_evaluation.log'
+    log_file = './ue_evaluation.log'
     evaluation(log_file)
     # animation_4_user_study('./user_study_t2m/')

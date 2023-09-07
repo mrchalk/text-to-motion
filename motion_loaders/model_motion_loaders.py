@@ -50,7 +50,7 @@ def get_motion_loader(opt_path, batch_size, ground_truth_dataset, mm_num_samples
     opt = get_opt(opt_path, device)
 
     # Currently the configurations of two datasets are almost the same
-    if opt.dataset_name == 't2m' or opt.dataset_name == 'kit':
+    if opt.dataset_name == 't2m' or opt.dataset_name == 'kit' or opt.dataset_name == 'ue':
         w_vectorizer = WordVectorizer('./glove', 'our_vab')
     else:
         raise KeyError('Dataset not recognized!!')

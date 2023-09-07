@@ -724,7 +724,7 @@ class CompTrainerV6(object):
                         self.forward(batch_data, 0, schedule_len, eval_mode=True)
                     fake_data = self.fake_motions[:4]
                     gt_data = self.motions[:4]
-                    data = torch.cat([fake_data, reco_data, gt_data], dim=0).cpu().numpy()
+                    data = torch.cat([fake_data, reco_data, gt_data], dim=0).cpu().detach().numpy()
                     captions = self.caption[:4] * 3
                     save_dir = pjoin(self.opt.eval_dir, 'E%03d_SE%02d_SL%02d'%(epoch, sub_epoch, schedule_len))
                     os.makedirs(save_dir, exist_ok=True)
